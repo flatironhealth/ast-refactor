@@ -1,0 +1,3 @@
+#!/bin/bash
+export PYTHON="$(which python)"
+gosu "${UID:-0}:${GID:-0}" $PYTHON -m ast_refactor.cli "$@"
