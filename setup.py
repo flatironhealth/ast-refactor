@@ -13,7 +13,7 @@ with open('requirements-test.txt', 'r') as fh:
 
 setup(
     name="ast-refactor",
-    version="0.0.1",
+    version="0.1.0",
     author="Flatiron Health Data Tooling",
     author_email="data-tooling@flatiron.com",
     url='https://github.com/flatironhealth/ast-refactor',

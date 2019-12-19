@@ -16,5 +16,4 @@ $VERSION_BUMP_PATTERNS = [
    ('ast_refactor/__init__.py', '__version__\s*=.*', '__version__ = "$VERSION"'),
    ('setup.py', 'version\s*=.*,', 'version="$VERSION",'),
    ('Dockerfile', 'LIBRARY_VERSION.*', 'LIBRARY_VERSION $VERSION'),
-   ('conda.recipe', 'version:\s*:.*', 'version: "$VERSION"'),
 ]
