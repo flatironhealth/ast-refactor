@@ -48,7 +48,7 @@ def find_next_sibling(node):
     return find_next_sibling(node.parent)
 
 
-def transform_code(code: str, xformer: "ASTReplacer") -> str:
+def transform_code(code: str, xformer: "ASTMigrator") -> str:
     """Apply a transformer to a given chunk of source code
 
     This will parse the code using the AST and find the expressions that are interesting according to xformer.
@@ -98,7 +98,7 @@ def transform_code(code: str, xformer: "ASTReplacer") -> str:
     return code
 
 
-class ASTReplacer(object, metaclass=abc.ABCMeta):
+class ASTMigrator(object, metaclass=abc.ABCMeta):
 
     pattern = NotImplemented
     examples: Dict[str, Union[str, NotMatchedType]]

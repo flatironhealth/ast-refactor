@@ -2,10 +2,10 @@ from textwrap import dedent
 
 from typed_ast import ast3 as ast
 
-from .core import ASTReplacer, NotMatched
+from ast_refactor.core import ASTMigrator, NotMatched
 
 
-class PandasPivotTable(ASTReplacer):
+class PandasPivotTable(ASTMigrator):
     pattern = "?.pivot_table(??, rows=?)"
 
     examples = {
@@ -22,7 +22,7 @@ class PandasPivotTable(ASTReplacer):
                 kw.arg = "columns"
 
 
-class PandasSort(ASTReplacer):
+class PandasSort(ASTMigrator):
     pattern = "?.sort(??)"
 
     examples = {
@@ -70,7 +70,7 @@ class PandasSort(ASTReplacer):
             return True
 
 
-class PandasToCsvLegacyArg(ASTReplacer):
+class PandasToCsvLegacyArg(ASTMigrator):
     pattern = "?.to_csv(??, cols=?)"
     examples = {
         "df.to_csv(filename, cols=['a', 'b', 'c'])": "df.to_csv(filename, columns=['a', 'b', 'c'])",
@@ -85,7 +85,7 @@ class PandasToCsvLegacyArg(ASTReplacer):
                 kw.arg = "columns"
 
 
-class PandasDropDuplicatesLegacyArg(ASTReplacer):
+class PandasDropDuplicatesLegacyArg(ASTMigrator):
     pattern = "?.drop_duplicates(??, cols=?)"
     examples = {"df.drop_duplicates(cols=['a'])": "df.drop_duplicates(columns=['a'])"}
 
@@ -96,7 +96,7 @@ class PandasDropDuplicatesLegacyArg(ASTReplacer):
                 kw.arg = "columns"
 
 
-class PandasLegacyIndex(ASTReplacer):
+class PandasLegacyIndex(ASTMigrator):
     """Replace all .ix locations with .loc,  This may not be correct, as .ix is fuzzy in what it does!"""
 
     pattern = "?.ix[??]"

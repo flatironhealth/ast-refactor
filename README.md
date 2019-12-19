@@ -13,6 +13,9 @@ run it on a repository that doesn't have code that is not checked in.
 
 ## Usage
 
+For detailed usage documentation see [usage docs](https://github.com/flatironhealth/ast-refactor/blob/master/doc/using.md) and 
+[writing a migrator](https://github.com/flatironhealth/ast-refactor/blob/master/doc/writing_a_migrator.md) and 
+
 ### as a python cli
 
 The easiest way to install this tool is using

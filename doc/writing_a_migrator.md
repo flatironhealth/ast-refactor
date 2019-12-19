@@ -1,11 +1,11 @@
 # Writing a migrator
 
-In order to write a new migrator you need to subclass `ast_refactor.ASTReplacer`.
+In order to write a new migrator you need to subclass `ast_refactor.ASTMigrator`.
 
 There are a few examples available in `ast_refactor.legacy_pandas`
 
 ```python
-class PandasPivotTable(ASTReplacer):
+class PandasPivotTable(ASTMigrator):
 
     pattern = "?.pivot_table(??, rows=?)"
 

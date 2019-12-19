@@ -9,7 +9,7 @@ import typing
 import re
 
 from typing import Optional, Iterator, Pattern, Type
-from .core import ASTReplacer, CantParseException
+from ast_refactor.core import ASTMigrator, CantParseException
 
 
 class RegexParamType(click.ParamType):
@@ -21,7 +21,7 @@ class RegexParamType(click.ParamType):
         param: Optional[click.Parameter] = None,
         ctx: Optional[click.Context] = None,
     ) -> Pattern:
-        return re.compile(value)
+        return re.compile(value, re.IGNORECASE)
 
 
 @click.group()
@@ -29,7 +29,7 @@ class RegexParamType(click.ParamType):
 @click.option(
     "--regex",
     type=RegexParamType(),
-    help="supply an optional regular expression to limit which converters to run.",
+    help="supply an optional regular expression to limit which migrators to run.",
 )
 @click.pass_context
 def cli(ctx, import_modules, regex):
@@ -37,6 +37,7 @@ def cli(ctx, import_modules, regex):
     ctx.ensure_object(dict)
     for module in import_modules:
         importlib.import_module(module)
+    ctx.obj["REGEX"] = regex
 
 
 @cli.command()
@@ -58,7 +59,7 @@ def run(ctx, path, ncores):
         print(client)
         futures = {}
         for p in tqdm.tqdm(sorted(paths), desc="Creating tasks"):
-            fut = client.submit(run_converters_on_file, p)
+            fut = client.submit(run_migrators_on_file, p)
             futures[fut] = p
 
         progress_iterator = tqdm.tqdm(desc="Scanning :", total=len(futures), miniters=1)
@@ -84,25 +85,30 @@ def run(ctx, path, ncores):
 @cli.command()
 @click.pass_context
 def available(ctx):
-    for klass in discover_converters(ctx.obj.get("REGEX")):
+    migrators = list(discover_migrators(ctx.obj.get("REGEX")))
+    if len(migrators) == 0:
+        print("** No migrators found **", file=sys.stderr, flush=True)
+    else:
+        print("** Available migrators **", file=sys.stderr, flush=True)
+    for klass in migrators:
         print(f"{klass.name()}")
 
 
-def discover_converters(filter_regex: Optional[Pattern]) -> Iterator[Type[ASTReplacer]]:
-    for klass in ASTReplacer.__subclasses__():
+def discover_migrators(filter_regex: Optional[Pattern]) -> Iterator[Type[ASTMigrator]]:
+    for klass in ASTMigrator.__subclasses__():
         if filter_regex and not filter_regex.match(klass.name()):
             continue
         yield klass
 
 
-def run_converters_on_file(file: pathlib.Path, filter_regex=None):
+def run_migrators_on_file(file: pathlib.Path, filter_regex=None):
     code = file.read_text(encoding="utf-8")
     original_code = code
 
-    for klass in discover_converters(filter_regex):
-        converter = klass()  # type: ignore
+    for klass in discover_migrators(filter_regex):
+        migrator = klass()  # type: ignore
         try:
-            code = converter.transform_code(code)
+            code = migrator.transform_code(code)
         except CantParseException as e:
             # If we cannot parse the file, just fail
             raise

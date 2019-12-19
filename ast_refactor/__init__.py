@@ -1,1 +1,1 @@
-from .core import ASTReplacer, transform_code
+from .core import ASTMigrator, transform_code
