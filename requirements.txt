@@ -1,7 +1,6 @@
-click>=7.0.0
+click>=8.0.0
 horast
 astsearch
 astmonkey
 tqdm
-pathlib ; python_version < '3.4'
 distributed
