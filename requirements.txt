@@ -1,4 +1,4 @@
-click==8.0.2
+click
 horast
 astsearch
 astmonkey
