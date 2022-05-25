@@ -29,8 +29,7 @@ jobs:
           pre-commit run --all-files
       - name: Test
         run: |
-          pip install pytest
-          pip install pytest-cov
+          pip install -r requirements-test.txt
           pytest --cov=./ --cov-report=xml --cov-config=./.coveragerc
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
