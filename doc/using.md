@@ -1,6 +1,6 @@
 # User guide
 
-Using ast-refactor is a cli tool.  
+Using ast-refactor is a cli tool.
 
 ## Importing migrators
 
@@ -11,7 +11,7 @@ $ ast-refactor available
 ** No converters found **
 ```
 
-In order to use a migrator we have to import the module that contains the migrators.  This will add all the migrators that are found in that module to the available pool 
+In order to use a migrator we have to import the module that contains the migrators.  This will add all the migrators that are found in that module to the available pool
 that can be used.
 
 ```bash
@@ -36,7 +36,7 @@ ast_refactor.legacy_pandas.PandasSort
 
 ## Running migrators on files
 
-You can use the same sorting and importing rules for running migrators.  
+You can use the same sorting and importing rules for running migrators.
 
 If the path passed is a directory then ast-refactor will run on all python files found in that directory, otherwise it will just run on the single file you specified.
 
@@ -46,7 +46,7 @@ ast-refactor -i ast_refactor.legacy_pandas --regex '.*sort' run /some/path/or/fi
 
 ### Performance considerations
 
-Due to some of the high computational costs of some of the underlying tools used by ast-refactor, we make use of [dask](https://dask.org/) in order to parallelize processing and make more effective use of the machine you run on. 
+Due to some of the high computational costs of some of the underlying tools used by ast-refactor, we make use of [dask](https://dask.org/) in order to parallelize processing and make more effective use of the machine you run on.
 
 To limit the amount of cpu that this consumes use the following argument
 

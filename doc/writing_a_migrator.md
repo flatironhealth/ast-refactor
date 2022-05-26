@@ -37,7 +37,7 @@ This function gets passed the python AST node that is matched.  You can make cha
 
 The AST nodes passed to you have been augmented using [astmonkey.transformers.ParentChildNodeTransformer()](https://github.com/mutpy/astmonkey#transformersparentchildnodetransformer) in order to make traversing the AST easier.  This is useful if you have to replace an AST node with a more complex one, in order to have access to its parent.
 
-For a good guide on what is present in the AST see [this guide](https://greentreesnakes.readthedocs.io/en/latest/nodes.html) 
+For a good guide on what is present in the AST see [this guide](https://greentreesnakes.readthedocs.io/en/latest/nodes.html)
 
 ## `examples`
 
